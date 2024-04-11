@@ -118,7 +118,7 @@ header {
 }
 
 .page {
-	background-color: #1a1a1a;
+	background-color: #000;
 }
 
 header .logo {
@@ -1712,8 +1712,9 @@ footer {
     padding: 80px;
     width: 100%;
     overflow: hidden;
-    color: #000;
-    background: #f8f8f8;
+    color: #fff;
+    /*background: #f8f8f8;*/
+    background: #000;
     text-align: center;
 }
 
@@ -1728,7 +1729,7 @@ footer .social-icons ul {
 }
 
 footer .social-icons li a {
-    color: #000000;
+    color: #fff;
     font-size: 12px;
     display: block;
     margin: 0 15px 15px 15px;
