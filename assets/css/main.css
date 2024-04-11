@@ -264,7 +264,7 @@ nav {
     position: absolute;
     left: 0;
     display: inline-block;
-    height: 1px;
+    height: 1em;
     width: 100%;
     border-bottom: 1px solid;
     margin-top: 4px;
