@@ -2790,7 +2790,9 @@ h3.title-section:after {
 		background-color: #8a1f25;
 	}*/
 	.parallax {
-		/*background-image: none;*/
+		background-image: url('../images/bg.jpg');
+		background-blend-mode: normal;
+		background-size: cover;
 		height: 12em;
 		margin-top: -5em;
 		background-color: #8a1f25;
