@@ -29,7 +29,7 @@ body {
     font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
     font-size: 15px;
     font-weight: 300;
-    background-color: #000;
+    background-color: #1a1a1a;
 }
 
 h1,
@@ -118,7 +118,7 @@ header {
 }
 
 .page {
-	background-color: #000;
+	background-color: #1a1a1a;
 }
 
 header .logo {
