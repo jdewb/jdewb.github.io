@@ -376,7 +376,7 @@ html[data-lc-type=image] #lightcase-content .lightcase-contentInner {
   font-size: 17px;
   color: #aaa;
 }
-@media screen and (max-width: 340px) {
+@media screen and (max-width: 640px) {
   /* line 19, ../scss/components/modules/_info.scss */
   #lightcase-info #lightcase-title {
     position: fixed;
