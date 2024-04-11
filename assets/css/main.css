@@ -2781,8 +2781,9 @@ h3.title-section:after {
 @media only screen and (max-width: 768px) {
 	.parallax {
 		z-index: 0;
-		background-image: url('../images/bg.jpg') !important;
+		background-image: url('../images/bg.jpg');
 		background-blend-mode: normal;
+		position: relative;
 		background-size: auto 89%;
 		background-repeat: no-repeat;
 		background-position: 50% 100%;
