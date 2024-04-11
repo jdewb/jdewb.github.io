@@ -367,8 +367,8 @@
   function mt_parallax() {
   $('.parallax').jarallax({
     speed: 0.3,
-    noAndroid: true,
-    noiPhone: true
+    noAndroid: false,
+    noiPhone: false
   });
   }
 

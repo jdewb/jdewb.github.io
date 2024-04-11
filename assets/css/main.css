@@ -137,6 +137,7 @@ header .logo a {
 }
 
 .parallax {
+	z-index: 0;
 	background-image: url(../images/35mm.gif), url(../images/bg.jpg);
 	background-blend-mode: overlay, normal;
     position: relative;
@@ -447,6 +448,7 @@ nav {
     transition: transform 1s cubic-bezier(0.07, 0.72, 0.24, 1), opacity 1s cubic-bezier(0.07, 0.72, 0.24, 1);
     transition: transform 1s cubic-bezier(0.07, 0.72, 0.24, 1), opacity 1s cubic-bezier(0.07, 0.72, 0.24, 1), -webkit-transform 1s cubic-bezier(0.07, 0.72, 0.24, 1);
     font-size: 17px;
+    color: #000;
 }
 
 .cbp.fadeAnim .cbp-item:hover .caption-body h2 {
@@ -2777,6 +2779,15 @@ h3.title-section:after {
 }
 
 @media only screen and (max-width: 768px) {
+	.parallax {
+		z-index: 0;
+		background-image: url('../images/bg.jpg') !important;
+		background-blend-mode: normal;
+		background-size: auto 89%;
+		background-repeat: no-repeat;
+		background-position: 50% 100%;
+		background-color: #8a1f25;
+	}
     .blogContainer .blog-column-two,
     .blogContainer .blog-column-three {
         width: 100%;
