@@ -2779,7 +2779,7 @@ h3.title-section:after {
 }
 
 @media only screen and (max-width: 768px) {
-	.parallax {
+	/*.parallax {
 		z-index: 0;
 		background-image: url('../images/bg.jpg');
 		background-blend-mode: normal;
@@ -2788,7 +2788,7 @@ h3.title-section:after {
 		background-repeat: no-repeat;
 		background-position: 50% 100%;
 		background-color: #8a1f25;
-	}
+	}*/
     .blogContainer .blog-column-two,
     .blogContainer .blog-column-three {
         width: 100%;
