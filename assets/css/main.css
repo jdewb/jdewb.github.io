@@ -148,12 +148,13 @@ header .logo a {
     height: 28em; /*630px*/
     margin-bottom: 1em;
     margin-top: -12em;
+    background-color: #8a1f25 !important;
 }
 
 [id*="jarallax-container-"] > div {
-	background-blend-mode: overlay, normal;
+	background-blend-mode: overlay, normal !important;
 	background-color: #8a1f25 !important;
-	background-size: auto, cover;
+	/*background-size: auto, cover;*/
     background-repeat: repeat, no-repeat;
 }
 
