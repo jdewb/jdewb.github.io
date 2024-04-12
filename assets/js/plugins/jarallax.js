@@ -1,20 +1,782 @@
 /*!
- * Name    : Just Another Parallax [Jarallax]
- * Version : 1.9.0
- * Author  : nK <https://nkdev.info>
- * GitHub  : https://github.com/nk-o/jarallax
+ * Jarallax v2.2.0 (https://github.com/nk-o/jarallax)
+ * Copyright 2024 nK <https://nkdev.info>
+ * Licensed under MIT (https://github.com/nk-o/jarallax/blob/master/LICENSE)
  */
-!function(){"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e){var t=["O","Moz","ms","Ms","Webkit"],i=t.length;if(void 0!==s.style[e])return!0;for(e=e.charAt(0).toUpperCase()+e.substr(1);--i>-1&&void 0===s.style[t[i]+e];);return i>=0}function i(e,t,i){e.addEventListener?e.addEventListener(t,i):e.attachEvent("on"+t,function(){i.call(e)})}function n(){h=window.innerWidth||document.documentElement.clientWidth,v=window.innerHeight||document.documentElement.clientHeight}function o(){if(x.length){b=void 0!==window.pageYOffset?window.pageYOffset:(document.documentElement||document.body.parentNode||document.body).scrollTop;var e=!w||w.width!==h||w.height!==v,t=e||!w||w.y!==b;(e||t)&&x.forEach(function(i){e&&i.onResize(),t&&i.onScroll()}),w={width:h,height:v,y:b},y(o)}}var a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},r=function(){function e(e,t){for(var i=0;i<t.length;i++){var n=t[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,i,n){return i&&e(t.prototype,i),n&&e(t,n),t}}(),s=document.createElement("div"),l=t("transform"),m=t("perspective"),c=navigator.userAgent,p=c.toLowerCase().indexOf("android")>-1,u=/iPad|iPhone|iPod/.test(c)&&!window.MSStream,d=c.toLowerCase().indexOf("firefox")>-1,f=c.indexOf("MSIE ")>-1||c.indexOf("Trident/")>-1||c.indexOf("Edge/")>-1,g=document.all&&!window.atob,y=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},h=void 0,v=void 0,b=void 0;n(),i(window,"resize",n),i(window,"orientationchange",n),i(window,"load",n);var x=[],w=!1,$=0,j=function(){function t(i,n){e(this,t);var o=this;o.instanceID=$++,o.$item=i,o.defaults={type:"scroll",speed:.5,imgSrc:null,imgElement:".jarallax-img",imgSize:"auto,auto 60%",imgPosition:"50% 0%",imgRepeat:"repeat,no-repeat",keepImg:!1,elementInViewport:null,zIndex:-100,noAndroid:!1,noIos:!1,videoSrc:null,videoStartTime:0,videoEndTime:0,videoVolume:0,videoPlayOnlyVisible:!0,onScroll:null,onInit:null,onDestroy:null,onCoverImage:null};var r=o.$item.getAttribute("data-jarallax"),s=JSON.parse(r||"{}");r&&console.warn("Detected usage of deprecated data-jarallax JSON options, you should use pure data-attribute options. See info here - https://github.com/nk-o/jarallax/issues/53");var l=o.$item.dataset,c={};Object.keys(l).forEach(function(e){var t=e.substr(0,1).toLowerCase()+e.substr(1);t&&"undefined"!=typeof o.defaults[t]&&(c[t]=l[e])}),o.options=o.extend({},o.defaults,s,c,n),o.pureOptions=o.extend({},o.options),Object.keys(o.options).forEach(function(e){"true"===o.options[e]?o.options[e]=!0:"false"===o.options[e]&&(o.options[e]=!1)}),o.options.speed=Math.min(2,Math.max(-1,parseFloat(o.options.speed)));var g=o.options.elementInViewport;g&&"object"===("undefined"==typeof g?"undefined":a(g))&&"undefined"!=typeof g.length&&(g=g[0]),g instanceof Element||(g=null),o.options.elementInViewport=g,o.image={src:o.options.imgSrc||null,$container:null,useImgTag:u||p||f,position:!m||d?"absolute":"fixed"},o.initImg()&&o.canInitParallax()&&o.init()}return r(t,[{key:"css",value:function(e,t){return"string"==typeof t?window.getComputedStyle?window.getComputedStyle(e).getPropertyValue(t):e.style[t]:(t.transform&&(m&&(t.transform+=" translateZ(0)"),t.WebkitTransform=t.transform,t.MozTransform=t.transform,t.msTransform=t.transform,t.OTransform=t.transform),Object.keys(t).forEach(function(i){e.style[i]=t[i]}),e)}},{key:"extend",value:function(e){var t=arguments;return e=e||{},Object.keys(arguments).forEach(function(i){t[i]&&Object.keys(t[i]).forEach(function(n){e[n]=t[i][n]})}),e}},{key:"getWindowData",value:function(){return{width:h,height:v,y:b}}},{key:"initImg",value:function(){var e=this,t=e.options.imgElement;return t&&"string"==typeof t&&(t=e.$item.querySelector(t)),t instanceof Element||(t=null),t&&(e.options.keepImg?e.image.$item=t.cloneNode(!0):(e.image.$item=t,e.image.$itemParent=t.parentNode),e.image.useImgTag=!0,e.image.useCustomImgTag=!0),!!e.image.$item||(null===e.image.src&&(e.image.src=e.css(e.$item,"background-image").replace(/^url\(['"]?/g,"").replace(/['"]?\)$/g,"")),!(!e.image.src||"none"===e.image.src))}},{key:"canInitParallax",value:function(){return l&&!(p&&this.options.noAndroid)&&!(u&&this.options.noIos)}},{key:"init",value:function(){var e=this,t={position:"absolute",top:0,left:0,width:"100%",height:"100%",overflow:"hidden",pointerEvents:"none"},i={};if(!e.options.keepImg){var n=e.$item.getAttribute("style");if(n&&e.$item.setAttribute("data-jarallax-original-styles",n),e.image.$item&&e.image.useCustomImgTag){var o=e.image.$item.getAttribute("style");o&&e.image.$item.setAttribute("data-jarallax-original-styles",o)}}"static"===e.css(e.$item,"position")&&e.css(e.$item,{position:"relative"}),"auto"===e.css(e.$item,"z-index")&&e.css(e.$item,{zIndex:0}),e.image.$container=document.createElement("div"),e.css(e.image.$container,t),e.css(e.image.$container,{"z-index":e.options.zIndex}),e.image.$container.setAttribute("id","jarallax-container-"+e.instanceID),e.$item.appendChild(e.image.$container),e.image.useImgTag?(e.image.$item||(e.image.$item=document.createElement("img"),e.image.$item.setAttribute("src",e.image.src)),i=e.extend({"object-fit":e.options.imgSize,"font-family":"object-fit: "+e.options.imgSize+"; object-position: "+e.options.imgPosition+";","max-width":"none"},t,i)):(e.image.$item=document.createElement("div"),i=e.extend({"background-position":e.options.imgPosition,"background-size":e.options.imgSize,"background-repeat":e.options.imgRepeat,"background-image":'url("'+e.image.src+'")'},t,i));for(var a=0,r=e.$item;null!==r&&r!==document&&0===a;){var s=e.css(r,"-webkit-transform")||e.css(r,"-moz-transform")||e.css(r,"transform");s&&"none"!==s&&(a=1,e.css(e.image.$container,{transform:"translateX(0) translateY(0)"})),r=r.parentNode}(a||"opacity"===e.options.type||"scale"===e.options.type||"scale-opacity"===e.options.type||1===e.options.speed)&&(e.image.position="absolute"),i.position=e.image.position,e.css(e.image.$item,i),e.image.$container.appendChild(e.image.$item),e.coverImage(),e.clipContainer(),e.onScroll(!0),e.options.onInit&&e.options.onInit.call(e),"none"!==e.css(e.$item,"background-image")&&e.css(e.$item,{"background-image":"none"}),e.addToParallaxList()}},{key:"addToParallaxList",value:function(){x.push(this),1===x.length&&o()}},{key:"removeFromParallaxList",value:function(){var e=this;x.forEach(function(t,i){t.instanceID===e.instanceID&&x.splice(i,1)})}},{key:"destroy",value:function(){var e=this;e.removeFromParallaxList();var t=e.$item.getAttribute("data-jarallax-original-styles");if(e.$item.removeAttribute("data-jarallax-original-styles"),t?e.$item.setAttribute("style",t):e.$item.removeAttribute("style"),e.image.$item&&e.image.useCustomImgTag){var i=e.image.$item.getAttribute("data-jarallax-original-styles");e.image.$item.removeAttribute("data-jarallax-original-styles"),i?e.image.$item.setAttribute("style",t):e.image.$item.removeAttribute("style"),e.image.$itemParent&&e.image.$itemParent.appendChild(e.image.$item)}e.$clipStyles&&e.$clipStyles.parentNode.removeChild(e.$clipStyles),e.image.$container&&e.image.$container.parentNode.removeChild(e.image.$container),e.options.onDestroy&&e.options.onDestroy.call(e),delete e.$item.jarallax}},{key:"clipContainer",value:function(){if(!g&&"fixed"===this.image.position){var e=this,t=e.image.$container.getBoundingClientRect(),i=t.width,n=t.height;if(!e.$clipStyles){e.$clipStyles=document.createElement("style"),e.$clipStyles.setAttribute("type","text/css"),e.$clipStyles.setAttribute("id","jarallax-clip-"+e.instanceID);var o=document.head||document.getElementsByTagName("head")[0];o.appendChild(e.$clipStyles)}var a=["#jarallax-container-"+e.instanceID+" {","   clip: rect(0 "+i+"px "+n+"px 0);","   clip: rect(0, "+i+"px, "+n+"px, 0);","}"].join("\n");e.$clipStyles.styleSheet?e.$clipStyles.styleSheet.cssText=a:e.$clipStyles.innerHTML=a}}},{key:"coverImage",value:function(){var e=this,t=e.image.$container.getBoundingClientRect(),i=t.height,n=e.options.speed,o="scroll"===e.options.type||"scroll-opacity"===e.options.type,a=0,r=i,s=0;return o&&(a=n<0?n*Math.max(i,v):n*(i+v),n>1?r=Math.abs(a-v):n<0?r=a/n+Math.abs(a):r+=Math.abs(v-i)*(1-n),a/=2),e.parallaxScrollDistance=a,s=o?(v-r)/2:(i-r)/2,e.css(e.image.$item,{height:r+"px",marginTop:s+"px",left:"fixed"===e.image.position?t.left+"px":"0",width:t.width+"px"}),e.options.onCoverImage&&e.options.onCoverImage.call(e),{image:{height:r,marginTop:s},container:t}}},{key:"isVisible",value:function(){return this.isElementInViewport||!1}},{key:"onScroll",value:function(e){var t=this,i=t.$item.getBoundingClientRect(),n=i.top,o=i.height,a={},r=i;if(t.options.elementInViewport&&(r=t.options.elementInViewport.getBoundingClientRect()),t.isElementInViewport=r.bottom>=0&&r.right>=0&&r.top<=v&&r.left<=h,e||t.isElementInViewport){var s=Math.max(0,n),l=Math.max(0,o+n),m=Math.max(0,-n),c=Math.max(0,n+o-v),p=Math.max(0,o-(n+o-v)),u=Math.max(0,-n+v-o),d=1-2*(v-n)/(v+o),f=1;if(o<v?f=1-(m||c)/o:l<=v?f=l/v:p<=v&&(f=p/v),"opacity"!==t.options.type&&"scale-opacity"!==t.options.type&&"scroll-opacity"!==t.options.type||(a.transform="",a.opacity=f),"scale"===t.options.type||"scale-opacity"===t.options.type){var g=1;t.options.speed<0?g-=t.options.speed*f:g+=t.options.speed*(1-f),a.transform="scale("+g+")"}if("scroll"===t.options.type||"scroll-opacity"===t.options.type){var y=t.parallaxScrollDistance*d;"absolute"===t.image.position&&(y-=n),a.transform="translateY("+y+"px)"}t.css(t.image.$item,a),t.options.onScroll&&t.options.onScroll.call(t,{section:i,beforeTop:s,beforeTopEnd:l,afterTop:m,beforeBottom:c,beforeBottomEnd:p,afterBottom:u,visiblePercent:f,fromViewportCenter:d})}}},{key:"onResize",value:function(){this.coverImage(),this.clipContainer()}}]),t}(),S=function(e){("object"===("undefined"==typeof HTMLElement?"undefined":a(HTMLElement))?e instanceof HTMLElement:e&&"object"===("undefined"==typeof e?"undefined":a(e))&&null!==e&&1===e.nodeType&&"string"==typeof e.nodeName)&&(e=[e]);var t=arguments[1],i=Array.prototype.slice.call(arguments,2),n=e.length,o=0,r=void 0;for(o;o<n;o++)if("object"===("undefined"==typeof t?"undefined":a(t))||"undefined"==typeof t?e[o].jarallax||(e[o].jarallax=new j(e[o],t)):e[o].jarallax&&(r=e[o].jarallax[t].apply(e[o].jarallax,i)),"undefined"!=typeof r)return r;return e};S.constructor=j;var I=window.jarallax;if(window.jarallax=S,window.jarallax.noConflict=function(){return window.jarallax=I,this},"undefined"!=typeof jQuery){var E=function(){var e=arguments||[];Array.prototype.unshift.call(e,this);var t=S.apply(window,e);return"object"!==("undefined"==typeof t?"undefined":a(t))?t:this};E.constructor=j;var k=jQuery.fn.jarallax;jQuery.fn.jarallax=E,jQuery.fn.jarallax.noConflict=function(){return jQuery.fn.jarallax=k,this}}i(window,"DOMContentLoaded",function(){S(document.querySelectorAll("[data-jarallax]"))})}();
-/*!
- * Name    : Video Worker (wrapper for Youtube, Vimeo and Local videos)
- * Version : 1.9.0
- * Author  : nK <https://nkdev.info>
- * GitHub  : https://github.com/nk-o/jarallax
- */
-!function(){"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(){this._done=[],this._fail=[]}function i(e,t,i){e.addEventListener?e.addEventListener(t,i):e.attachEvent("on"+t,function(){i.call(e)})}var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},a=function(){function e(e,t){for(var i=0;i<t.length;i++){var o=t[i];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,i,o){return i&&e(t.prototype,i),o&&e(t,o),t}}();t.prototype={execute:function(e,t){var i=e.length;for(t=Array.prototype.slice.call(t);i--;)e[i].apply(null,t)},resolve:function(){this.execute(this._done,arguments)},reject:function(){this.execute(this._fail,arguments)},done:function(e){this._done.push(e)},fail:function(e){this._fail.push(e)}};var n=0,r=0,p=0,l=0,s=0,u=new t,d=new t,y=function(){function t(i,o){e(this,t);var a=this;a.url=i,a.options_default={autoplay:1,loop:1,mute:1,volume:0,controls:0,startTime:0,endTime:0},a.options=a.extend({},a.options_default,o),a.videoID=a.parseURL(i),a.videoID&&(a.ID=n++,a.loadAPI(),a.init())}return a(t,[{key:"extend",value:function(e){var t=arguments;return e=e||{},Object.keys(arguments).forEach(function(i){t[i]&&Object.keys(t[i]).forEach(function(o){e[o]=t[i][o]})}),e}},{key:"parseURL",value:function(e){function t(e){var t=/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,i=e.match(t);return!(!i||11!==i[1].length)&&i[1]}function i(e){var t=/https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/,i=e.match(t);return!(!i||!i[3])&&i[3]}function o(e){var t=e.split(/,(?=mp4\:|webm\:|ogv\:|ogg\:)/),i={},o=0;return t.forEach(function(e){var t=e.match(/^(mp4|webm|ogv|ogg)\:(.*)/);t&&t[1]&&t[2]&&(i["ogv"===t[1]?"ogg":t[1]]=t[2],o=1)}),!!o&&i}var a=t(e),n=i(e),r=o(e);return a?(this.type="youtube",a):n?(this.type="vimeo",n):!!r&&(this.type="local",r)}},{key:"isValid",value:function(){return!!this.videoID}},{key:"on",value:function(e,t){this.userEventsList=this.userEventsList||[],(this.userEventsList[e]||(this.userEventsList[e]=[])).push(t)}},{key:"off",value:function(e,t){var i=this;this.userEventsList&&this.userEventsList[e]&&(t?this.userEventsList[e].forEach(function(o,a){o===t&&(i.userEventsList[e][a]=!1)}):delete this.userEventsList[e])}},{key:"fire",value:function(e){var t=this,i=[].slice.call(arguments,1);this.userEventsList&&"undefined"!=typeof this.userEventsList[e]&&this.userEventsList[e].forEach(function(e){e&&e.apply(t,i)})}},{key:"play",value:function(e){var t=this;t.player&&("youtube"===t.type&&t.player.playVideo&&("undefined"!=typeof e&&t.player.seekTo(e||0),YT.PlayerState.PLAYING!==t.player.getPlayerState()&&t.player.playVideo()),"vimeo"===t.type&&("undefined"!=typeof e&&t.player.setCurrentTime(e),t.player.getPaused().then(function(e){e&&t.player.play()})),"local"===t.type&&("undefined"!=typeof e&&(t.player.currentTime=e),t.player.paused&&t.player.play()))}},{key:"pause",value:function(){var e=this;e.player&&("youtube"===e.type&&e.player.pauseVideo&&YT.PlayerState.PLAYING===e.player.getPlayerState()&&e.player.pauseVideo(),"vimeo"===e.type&&e.player.getPaused().then(function(t){t||e.player.pause()}),"local"===e.type&&(e.player.paused||e.player.pause()))}},{key:"getImageURL",value:function(e){var t=this;if(t.videoImage)return void e(t.videoImage);if("youtube"===t.type){var i=["maxresdefault","sddefault","hqdefault","0"],o=0,a=new Image;a.onload=function(){120!==(this.naturalWidth||this.width)||o===i.length-1?(t.videoImage="https://img.youtube.com/vi/"+t.videoID+"/"+i[o]+".jpg",e(t.videoImage)):(o++,this.src="https://img.youtube.com/vi/"+t.videoID+"/"+i[o]+".jpg")},a.src="https://img.youtube.com/vi/"+t.videoID+"/"+i[o]+".jpg"}if("vimeo"===t.type){var n=new XMLHttpRequest;n.open("GET","https://vimeo.com/api/v2/video/"+t.videoID+".json",!0),n.onreadystatechange=function(){if(4===this.readyState&&this.status>=200&&this.status<400){var i=JSON.parse(this.responseText);t.videoImage=i[0].thumbnail_large,e(t.videoImage)}},n.send(),n=null}}},{key:"getIframe",value:function(e){var t=this;return t.$iframe?void e(t.$iframe):void t.onAPIready(function(){function o(e,t,i){var o=document.createElement("source");o.src=t,o.type=i,e.appendChild(o)}var a=void 0;if(t.$iframe||(a=document.createElement("div"),a.style.display="none"),"youtube"===t.type){t.playerOptions={},t.playerOptions.videoId=t.videoID,t.playerOptions.playerVars={autohide:1,rel:0,autoplay:0},t.options.controls||(t.playerOptions.playerVars.iv_load_policy=3,t.playerOptions.playerVars.modestbranding=1,t.playerOptions.playerVars.controls=0,t.playerOptions.playerVars.showinfo=0,t.playerOptions.playerVars.disablekb=1);var n=void 0,r=void 0;t.playerOptions.events={onReady:function(e){t.options.mute?e.target.mute():t.options.volume&&e.target.setVolume(t.options.volume),t.options.autoplay&&t.play(t.options.startTime),t.fire("ready",e)},onStateChange:function(e){t.options.loop&&e.data===YT.PlayerState.ENDED&&t.play(t.options.startTime),n||e.data!==YT.PlayerState.PLAYING||(n=1,t.fire("started",e)),e.data===YT.PlayerState.PLAYING&&t.fire("play",e),e.data===YT.PlayerState.PAUSED&&t.fire("pause",e),e.data===YT.PlayerState.ENDED&&t.fire("end",e),t.options.endTime&&(e.data===YT.PlayerState.PLAYING?r=setInterval(function(){t.options.endTime&&t.player.getCurrentTime()>=t.options.endTime&&(t.options.loop?t.play(t.options.startTime):t.pause())},150):clearInterval(r))}};var p=!t.$iframe;if(p){var l=document.createElement("div");l.setAttribute("id",t.playerID),a.appendChild(l),document.body.appendChild(a)}t.player=t.player||new window.YT.Player(t.playerID,t.playerOptions),p&&(t.$iframe=document.getElementById(t.playerID),t.videoWidth=parseInt(t.$iframe.getAttribute("width"),10)||1280,t.videoHeight=parseInt(t.$iframe.getAttribute("height"),10)||720)}if("vimeo"===t.type){t.playerOptions="",t.playerOptions+="player_id="+t.playerID,t.playerOptions+="&autopause=0",t.options.controls||(t.playerOptions+="&badge=0&byline=0&portrait=0&title=0"),t.playerOptions+="&autoplay="+(t.options.autoplay?"1":"0"),t.playerOptions+="&loop="+(t.options.loop?1:0),t.$iframe||(t.$iframe=document.createElement("iframe"),t.$iframe.setAttribute("id",t.playerID),t.$iframe.setAttribute("src","https://player.vimeo.com/video/"+t.videoID+"?"+t.playerOptions),t.$iframe.setAttribute("frameborder","0"),a.appendChild(t.$iframe),document.body.appendChild(a)),t.player=t.player||new Vimeo.Player(t.$iframe),t.player.getVideoWidth().then(function(e){t.videoWidth=e||1280}),t.player.getVideoHeight().then(function(e){t.videoHeight=e||720}),t.options.startTime&&t.options.autoplay&&t.player.setCurrentTime(t.options.startTime),t.options.mute?t.player.setVolume(0):t.options.volume&&t.player.setVolume(t.options.volume);var s=void 0;t.player.on("timeupdate",function(e){s||t.fire("started",e),s=1,t.options.endTime&&t.options.endTime&&e.seconds>=t.options.endTime&&(t.options.loop?t.play(t.options.startTime):t.pause())}),t.player.on("play",function(e){t.fire("play",e),t.options.startTime&&0===e.seconds&&t.play(t.options.startTime)}),t.player.on("pause",function(e){t.fire("pause",e)}),t.player.on("ended",function(e){t.fire("end",e)}),t.player.on("loaded",function(e){t.fire("ready",e)})}if("local"===t.type){t.$iframe||(t.$iframe=document.createElement("video"),t.options.mute?t.$iframe.muted=!0:t.$iframe.volume&&(t.$iframe.volume=t.options.volume/100),t.options.loop&&(t.$iframe.loop=!0),t.$iframe.setAttribute("id",t.playerID),a.appendChild(t.$iframe),document.body.appendChild(a),Object.keys(t.videoID).forEach(function(e){o(t.$iframe,t.videoID[e],"video/"+e)})),t.player=t.player||t.$iframe;var u=void 0;i(t.player,"playing",function(e){u||t.fire("started",e),u=1}),i(t.player,"timeupdate",function(){t.options.endTime&&t.options.endTime&&this.currentTime>=t.options.endTime&&(t.options.loop?t.play(t.options.startTime):t.pause())}),i(t.player,"play",function(e){t.fire("play",e)}),i(t.player,"pause",function(e){t.fire("pause",e)}),i(t.player,"ended",function(e){t.fire("end",e)}),i(t.player,"loadedmetadata",function(){t.videoWidth=this.videoWidth||1280,t.videoHeight=this.videoHeight||720,t.fire("ready"),t.options.autoplay&&t.play(t.options.startTime)})}e(t.$iframe)})}},{key:"init",value:function(){var e=this;e.playerID="VideoWorker-"+e.ID}},{key:"loadAPI",value:function(){var e=this;if(!r||!p){var t="";if("youtube"!==e.type||r||(r=1,t="https://www.youtube.com/iframe_api"),"vimeo"!==e.type||p||(p=1,t="https://player.vimeo.com/api/player.js"),t){var i=document.createElement("script"),o=document.getElementsByTagName("head")[0];i.src=t,o.appendChild(i),o=null,i=null}}}},{key:"onAPIready",value:function(e){var t=this;if("youtube"===t.type&&("undefined"!=typeof YT&&0!==YT.loaded||l?"object"===("undefined"==typeof YT?"undefined":o(YT))&&1===YT.loaded?e():u.done(function(){e()}):(l=1,window.onYouTubeIframeAPIReady=function(){window.onYouTubeIframeAPIReady=null,u.resolve("done"),e()})),"vimeo"===t.type)if("undefined"!=typeof Vimeo||s)"undefined"!=typeof Vimeo?e():d.done(function(){e()});else{s=1;var i=setInterval(function(){"undefined"!=typeof Vimeo&&(clearInterval(i),d.resolve("done"),e())},20)}"local"===t.type&&e()}}]),t}();window.VideoWorker=y,/*!
- * Name    : Video Background Extension for Jarallax
- * Version : 1.0.0
- * Author  : nK http://nkdev.info
- * GitHub  : https://github.com/nk-o/jarallax
- */
-function(){if("undefined"!=typeof jarallax){var e=jarallax.constructor,t=e.prototype.init;e.prototype.init=function(){var e=this;t.apply(e),e.video&&e.video.getIframe(function(t){var i=t.parentNode;e.css(t,{position:e.image.position,top:"0px",left:"0px",right:"0px",bottom:"0px",width:"100%",height:"100%",maxWidth:"none",maxHeight:"none",margin:0,zIndex:-1}),e.$video=t,e.image.$container.appendChild(t),i.parentNode.removeChild(i)})};var o=e.prototype.coverImage;e.prototype.coverImage=function(){var e=this,t=o.apply(e),i=e.image.$item.nodeName;if(t&&e.video&&("IFRAME"===i||"VIDEO"===i)){var a=t.image.height,n=a*e.image.width/e.image.height,r=(t.container.width-n)/2,p=t.image.marginTop;t.container.width>n&&(n=t.container.width,a=n*e.image.height/e.image.width,r=0,p+=(t.image.height-a)/2),"IFRAME"===i&&(a+=400,p-=200),e.css(e.$video,{width:n+"px",marginLeft:r+"px",height:a+"px",marginTop:p+"px"})}return t};var a=e.prototype.initImg;e.prototype.initImg=function(){var e=this,t=a.apply(e);return e.options.videoSrc||(e.options.videoSrc=e.$item.getAttribute("data-jarallax-video")||null),e.options.videoSrc?(e.defaultInitImgResult=t,!0):t};var n=e.prototype.canInitParallax;e.prototype.canInitParallax=function(){var e=this,t=n.apply(e);if(!e.options.videoSrc)return t;var i=new y(e.options.videoSrc,{startTime:e.options.videoStartTime||0,endTime:e.options.videoEndTime||0,mute:e.options.videoVolume?0:1,volume:e.options.videoVolume||0});if(i.isValid())if(t){if(e.image.useImgTag=!0,i.on("ready",function(){if(e.options.videoPlayOnlyVisible){var t=e.onScroll;e.onScroll=function(){t.apply(e),e.isVisible()?i.play():i.pause()}}else i.play()}),i.on("started",function(){e.image.$default_item=e.image.$item,e.image.$item=e.$video,e.image.width=e.video.videoWidth||1280,e.image.height=e.video.videoHeight||720,e.options.imgWidth=e.image.width,e.options.imgHeight=e.image.height,e.coverImage(),e.clipContainer(),e.onScroll(),e.image.$default_item&&(e.image.$default_item.style.display="none")}),e.video=i,!e.defaultInitImgResult)return"local"!==i.type?(i.getImageURL(function(t){e.image.src=t,e.init()}),!1):(e.image.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",!0)}else e.defaultInitImgResult||i.getImageURL(function(t){var i=e.$item.getAttribute("style");i&&e.$item.setAttribute("data-jarallax-original-styles",i),e.css(e.$item,{"background-image":'url("'+t+'")',"background-position":"center","background-size":"cover"})});return t};var r=e.prototype.destroy;e.prototype.destroy=function(){var e=this;e.image.$default_item&&(e.image.$item=e.image.$default_item,delete e.image.$default_item),r.apply(e)},i(window,"DOMContentLoaded",function(){jarallax(document.querySelectorAll("[data-jarallax-video]"))})}}()}();
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.jarallax = factory());
+})(this, (function () { 'use strict';
+
+  /**
+   * Document ready callback.
+   * @param {Function} callback - callback will be fired once Document ready.
+   */
+  function ready(callback) {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      // Already ready or interactive, execute callback
+      callback();
+    } else {
+      document.addEventListener('DOMContentLoaded', callback, {
+        capture: true,
+        once: true,
+        passive: true
+      });
+    }
+  }
+
+  /* eslint-disable import/no-mutable-exports */
+  /* eslint-disable no-restricted-globals */
+  let win;
+  if (typeof window !== 'undefined') {
+    win = window;
+  } else if (typeof global !== 'undefined') {
+    win = global;
+  } else if (typeof self !== 'undefined') {
+    win = self;
+  } else {
+    win = {};
+  }
+  var global$1 = win;
+
+  var defaults = {
+    // Base parallax options.
+    type: 'scroll',
+    speed: 0.5,
+    containerClass: 'jarallax-container',
+    imgSrc: null,
+    imgElement: '.jarallax-img',
+    imgSize: 'cover',
+    imgPosition: '50% 50%',
+    imgRepeat: 'no-repeat',
+    keepImg: false,
+    elementInViewport: null,
+    zIndex: -100,
+    disableParallax: false,
+    // Callbacks.
+    onScroll: null,
+    onInit: null,
+    onDestroy: null,
+    onCoverImage: null,
+    // Video options.
+    videoClass: 'jarallax-video',
+    videoSrc: null,
+    videoStartTime: 0,
+    videoEndTime: 0,
+    videoVolume: 0,
+    videoLoop: true,
+    videoPlayOnlyVisible: true,
+    videoLazyLoading: true,
+    disableVideo: false,
+    // Video callbacks.
+    onVideoInsert: null,
+    onVideoWorkerInit: null
+  };
+
+  /**
+   * Add styles to element.
+   *
+   * @param {Element} el - element.
+   * @param {String|Object} styles - styles list.
+   *
+   * @returns {Element}
+   */
+  function css(el, styles) {
+    if (typeof styles === 'string') {
+      return global$1.getComputedStyle(el).getPropertyValue(styles);
+    }
+    Object.keys(styles).forEach(key => {
+      el.style[key] = styles[key];
+    });
+    return el;
+  }
+
+  /**
+   * Extend like jQuery.extend
+   *
+   * @param {Object} out - output object.
+   * @param {...any} args - additional objects to extend.
+   *
+   * @returns {Object}
+   */
+  function extend(out, ...args) {
+    out = out || {};
+    Object.keys(args).forEach(i => {
+      if (!args[i]) {
+        return;
+      }
+      Object.keys(args[i]).forEach(key => {
+        out[key] = args[i][key];
+      });
+    });
+    return out;
+  }
+
+  /**
+   * Get all parents of the element.
+   *
+   * @param {Element} elem - DOM element.
+   *
+   * @returns {Array}
+   */
+  function getParents(elem) {
+    const parents = [];
+    while (elem.parentElement !== null) {
+      elem = elem.parentElement;
+      if (elem.nodeType === 1) {
+        parents.push(elem);
+      }
+    }
+    return parents;
+  }
+
+  const {
+    navigator: navigator$1
+  } = global$1;
+  const mobileAgent = /*#__PURE__*/ /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator$1.userAgent);
+  function isMobile() {
+    return mobileAgent;
+  }
+
+  let wndW;
+  let wndH;
+  let $deviceHelper;
+
+  /**
+   * The most popular mobile browsers changes height after page scroll and this generates image jumping.
+   * We can fix it using this workaround with vh units.
+   */
+  function getDeviceHeight() {
+    if (!$deviceHelper && document.body) {
+      $deviceHelper = document.createElement('div');
+      $deviceHelper.style.cssText = 'position: fixed; top: -9999px; left: 0; height: 100vh; width: 0;';
+      document.body.appendChild($deviceHelper);
+    }
+    return ($deviceHelper ? $deviceHelper.clientHeight : 0) || global$1.innerHeight || document.documentElement.clientHeight;
+  }
+  function updateWindowHeight() {
+    wndW = global$1.innerWidth || document.documentElement.clientWidth;
+    if (isMobile()) {
+      wndH = getDeviceHeight();
+    } else {
+      wndH = global$1.innerHeight || document.documentElement.clientHeight;
+    }
+  }
+  updateWindowHeight();
+  global$1.addEventListener('resize', updateWindowHeight);
+  global$1.addEventListener('orientationchange', updateWindowHeight);
+  global$1.addEventListener('load', updateWindowHeight);
+  ready(() => {
+    updateWindowHeight();
+  });
+  function getWindowSize() {
+    return {
+      width: wndW,
+      height: wndH
+    };
+  }
+
+  // List with all jarallax instances
+  // need to render all in one scroll/resize event.
+  const jarallaxList = [];
+  function updateParallax() {
+    if (!jarallaxList.length) {
+      return;
+    }
+    const {
+      width: wndW,
+      height: wndH
+    } = getWindowSize();
+    jarallaxList.forEach((data, k) => {
+      const {
+        instance,
+        oldData
+      } = data;
+      if (!instance.isVisible()) {
+        return;
+      }
+      const clientRect = instance.$item.getBoundingClientRect();
+      const newData = {
+        width: clientRect.width,
+        height: clientRect.height,
+        top: clientRect.top,
+        bottom: clientRect.bottom,
+        wndW,
+        wndH
+      };
+      const isResized = !oldData || oldData.wndW !== newData.wndW || oldData.wndH !== newData.wndH || oldData.width !== newData.width || oldData.height !== newData.height;
+      const isScrolled = isResized || !oldData || oldData.top !== newData.top || oldData.bottom !== newData.bottom;
+      jarallaxList[k].oldData = newData;
+      if (isResized) {
+        instance.onResize();
+      }
+      if (isScrolled) {
+        instance.onScroll();
+      }
+    });
+    global$1.requestAnimationFrame(updateParallax);
+  }
+  const visibilityObserver = /*#__PURE__*/new global$1.IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      entry.target.jarallax.isElementInViewport = entry.isIntersecting;
+    });
+  }, {
+    // We have to start parallax calculation before the block is in view
+    // to prevent possible parallax jumping.
+    rootMargin: '50px'
+  });
+  function addObserver(instance) {
+    jarallaxList.push({
+      instance
+    });
+    if (jarallaxList.length === 1) {
+      global$1.requestAnimationFrame(updateParallax);
+    }
+    visibilityObserver.observe(instance.options.elementInViewport || instance.$item);
+  }
+  function removeObserver(instance) {
+    jarallaxList.forEach((data, key) => {
+      if (data.instance.instanceID === instance.instanceID) {
+        jarallaxList.splice(key, 1);
+      }
+    });
+    visibilityObserver.unobserve(instance.options.elementInViewport || instance.$item);
+  }
+
+  /* eslint-disable class-methods-use-this */
+  const {
+    navigator
+  } = global$1;
+  let instanceID = 0;
+
+  // Jarallax class
+  class Jarallax {
+    constructor(item, userOptions) {
+      const self = this;
+      self.instanceID = instanceID;
+      instanceID += 1;
+      self.$item = item;
+      self.defaults = {
+        ...defaults
+      };
+
+      // prepare data-options
+      const dataOptions = self.$item.dataset || {};
+      const pureDataOptions = {};
+      Object.keys(dataOptions).forEach(key => {
+        const lowerCaseOption = key.substr(0, 1).toLowerCase() + key.substr(1);
+        if (lowerCaseOption && typeof self.defaults[lowerCaseOption] !== 'undefined') {
+          pureDataOptions[lowerCaseOption] = dataOptions[key];
+        }
+      });
+      self.options = self.extend({}, self.defaults, pureDataOptions, userOptions);
+      self.pureOptions = self.extend({}, self.options);
+
+      // prepare 'true' and 'false' strings to boolean
+      Object.keys(self.options).forEach(key => {
+        if (self.options[key] === 'true') {
+          self.options[key] = true;
+        } else if (self.options[key] === 'false') {
+          self.options[key] = false;
+        }
+      });
+
+      // fix speed option [-1.0, 2.0]
+      self.options.speed = Math.min(2, Math.max(-1, parseFloat(self.options.speed)));
+
+      // prepare disableParallax callback
+      if (typeof self.options.disableParallax === 'string') {
+        self.options.disableParallax = new RegExp(self.options.disableParallax);
+      }
+      if (self.options.disableParallax instanceof RegExp) {
+        const disableParallaxRegexp = self.options.disableParallax;
+        self.options.disableParallax = () => disableParallaxRegexp.test(navigator.userAgent);
+      }
+      if (typeof self.options.disableParallax !== 'function') {
+        self.options.disableParallax = () => false;
+      }
+
+      // prepare disableVideo callback
+      if (typeof self.options.disableVideo === 'string') {
+        self.options.disableVideo = new RegExp(self.options.disableVideo);
+      }
+      if (self.options.disableVideo instanceof RegExp) {
+        const disableVideoRegexp = self.options.disableVideo;
+        self.options.disableVideo = () => disableVideoRegexp.test(navigator.userAgent);
+      }
+      if (typeof self.options.disableVideo !== 'function') {
+        self.options.disableVideo = () => false;
+      }
+
+      // custom element to check if parallax in viewport
+      let elementInVP = self.options.elementInViewport;
+      // get first item from array
+      if (elementInVP && typeof elementInVP === 'object' && typeof elementInVP.length !== 'undefined') {
+        [elementInVP] = elementInVP;
+      }
+      // check if dom element
+      if (!(elementInVP instanceof Element)) {
+        elementInVP = null;
+      }
+      self.options.elementInViewport = elementInVP;
+      self.image = {
+        src: self.options.imgSrc || null,
+        $container: null,
+        useImgTag: false,
+        // 1. Position fixed is needed for the most of browsers because absolute position have glitches
+        // 2. On MacOS with smooth scroll there is a huge lags with absolute position - https://github.com/nk-o/jarallax/issues/75
+        // 3. Previously used 'absolute' for mobile devices. But we re-tested on iPhone 12 and 'fixed' position is working better, then 'absolute', so for now position is always 'fixed'
+        position: 'fixed'
+      };
+      if (self.initImg() && self.canInitParallax()) {
+        self.init();
+      }
+    }
+    css(el, styles) {
+      return css(el, styles);
+    }
+    extend(out, ...args) {
+      return extend(out, ...args);
+    }
+
+    // get window size and scroll position. Useful for extensions
+    getWindowData() {
+      const {
+        width,
+        height
+      } = getWindowSize();
+      return {
+        width,
+        height,
+        y: document.documentElement.scrollTop
+      };
+    }
+
+    // Jarallax functions
+    initImg() {
+      const self = this;
+
+      // find image element
+      let $imgElement = self.options.imgElement;
+      if ($imgElement && typeof $imgElement === 'string') {
+        $imgElement = self.$item.querySelector($imgElement);
+      }
+
+      // check if dom element
+      if (!($imgElement instanceof Element)) {
+        if (self.options.imgSrc) {
+          $imgElement = new Image();
+          $imgElement.src = self.options.imgSrc;
+        } else {
+          $imgElement = null;
+        }
+      }
+      if ($imgElement) {
+        if (self.options.keepImg) {
+          self.image.$item = $imgElement.cloneNode(true);
+        } else {
+          self.image.$item = $imgElement;
+          self.image.$itemParent = $imgElement.parentNode;
+        }
+        self.image.useImgTag = true;
+      }
+
+      // true if there is img tag
+      if (self.image.$item) {
+        return true;
+      }
+
+      // get image src
+      if (self.image.src === null) {
+        self.image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        self.image.bgImage = self.css(self.$item, 'background-image');
+      }
+      return !(!self.image.bgImage || self.image.bgImage === 'none');
+    }
+    canInitParallax() {
+      return !this.options.disableParallax();
+    }
+    init() {
+      const self = this;
+      const containerStyles = {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden'
+      };
+      let imageStyles = {
+        pointerEvents: 'none',
+        transformStyle: 'preserve-3d',
+        backfaceVisibility: 'hidden'
+      };
+      if (!self.options.keepImg) {
+        // save default user styles
+        const curStyle = self.$item.getAttribute('style');
+        if (curStyle) {
+          self.$item.setAttribute('data-jarallax-original-styles', curStyle);
+        }
+        if (self.image.useImgTag) {
+          const curImgStyle = self.image.$item.getAttribute('style');
+          if (curImgStyle) {
+            self.image.$item.setAttribute('data-jarallax-original-styles', curImgStyle);
+          }
+        }
+      }
+
+      // set relative position and z-index to the parent
+      if (self.css(self.$item, 'position') === 'static') {
+        self.css(self.$item, {
+          position: 'relative'
+        });
+      }
+      if (self.css(self.$item, 'z-index') === 'auto') {
+        self.css(self.$item, {
+          zIndex: 0
+        });
+      }
+
+      // container for parallax image
+      self.image.$container = document.createElement('div');
+      self.css(self.image.$container, containerStyles);
+      self.css(self.image.$container, {
+        'z-index': self.options.zIndex
+      });
+
+      // it will remove some image overlapping
+      // overlapping occur due to an image position fixed inside absolute position element
+      // needed only when background in fixed position
+      if (this.image.position === 'fixed') {
+        self.css(self.image.$container, {
+          '-webkit-clip-path': 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+          'clip-path': 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
+        });
+      }
+
+      // Add container unique ID.
+      self.image.$container.setAttribute('id', `jarallax-container-${self.instanceID}`);
+
+      // Add container class.
+      if (self.options.containerClass) {
+        self.image.$container.setAttribute('class', self.options.containerClass);
+      }
+      self.$item.appendChild(self.image.$container);
+
+      // use img tag
+      if (self.image.useImgTag) {
+        imageStyles = self.extend({
+          'object-fit': self.options.imgSize,
+          'object-position': self.options.imgPosition,
+          'max-width': 'none'
+        }, containerStyles, imageStyles);
+
+        // use div with background image
+      } else {
+        self.image.$item = document.createElement('div');
+        if (self.image.src) {
+          imageStyles = self.extend({
+            'background-position': self.options.imgPosition,
+            'background-size': self.options.imgSize,
+            'background-repeat': self.options.imgRepeat,
+            'background-image': self.image.bgImage || `url("${self.image.src}")`
+          }, containerStyles, imageStyles);
+        }
+      }
+      if (self.options.type === 'opacity' || self.options.type === 'scale' || self.options.type === 'scale-opacity' || self.options.speed === 1) {
+        self.image.position = 'absolute';
+      }
+
+      // 1. Check if one of parents have transform style (without this check, scroll transform will be inverted if used parallax with position fixed)
+      //    discussion - https://github.com/nk-o/jarallax/issues/9
+      // 2. Check if parents have overflow scroll
+      if (self.image.position === 'fixed') {
+        const $parents = getParents(self.$item).filter(el => {
+          const styles = global$1.getComputedStyle(el);
+          const parentTransform = styles['-webkit-transform'] || styles['-moz-transform'] || styles.transform;
+          const overflowRegex = /(auto|scroll)/;
+          return parentTransform && parentTransform !== 'none' || overflowRegex.test(styles.overflow + styles['overflow-y'] + styles['overflow-x']);
+        });
+        self.image.position = $parents.length ? 'absolute' : 'fixed';
+      }
+
+      // add position to parallax block
+      imageStyles.position = self.image.position;
+
+      // insert parallax image
+      self.css(self.image.$item, imageStyles);
+      self.image.$container.appendChild(self.image.$item);
+
+      // set initial position and size
+      self.onResize();
+      self.onScroll(true);
+
+      // call onInit event
+      if (self.options.onInit) {
+        self.options.onInit.call(self);
+      }
+
+      // remove default user background
+      if (self.css(self.$item, 'background-image') !== 'none') {
+        self.css(self.$item, {
+          'background-image': 'none'
+        });
+      }
+      addObserver(self);
+    }
+    destroy() {
+      const self = this;
+      removeObserver(self);
+
+      // return styles on container as before jarallax init
+      const originalStylesTag = self.$item.getAttribute('data-jarallax-original-styles');
+      self.$item.removeAttribute('data-jarallax-original-styles');
+      // null occurs if there is no style tag before jarallax init
+      if (!originalStylesTag) {
+        self.$item.removeAttribute('style');
+      } else {
+        self.$item.setAttribute('style', originalStylesTag);
+      }
+      if (self.image.useImgTag) {
+        // return styles on img tag as before jarallax init
+        const originalStylesImgTag = self.image.$item.getAttribute('data-jarallax-original-styles');
+        self.image.$item.removeAttribute('data-jarallax-original-styles');
+        // null occurs if there is no style tag before jarallax init
+        if (!originalStylesImgTag) {
+          self.image.$item.removeAttribute('style');
+        } else {
+          self.image.$item.setAttribute('style', originalStylesTag);
+        }
+
+        // move img tag to its default position
+        if (self.image.$itemParent) {
+          self.image.$itemParent.appendChild(self.image.$item);
+        }
+      }
+
+      // remove additional dom elements
+      if (self.image.$container) {
+        self.image.$container.parentNode.removeChild(self.image.$container);
+      }
+
+      // call onDestroy event
+      if (self.options.onDestroy) {
+        self.options.onDestroy.call(self);
+      }
+
+      // delete jarallax from item
+      delete self.$item.jarallax;
+    }
+    coverImage() {
+      const self = this;
+      const {
+        height: wndH
+      } = getWindowSize();
+      const rect = self.image.$container.getBoundingClientRect();
+      const contH = rect.height;
+      const {
+        speed
+      } = self.options;
+      const isScroll = self.options.type === 'scroll' || self.options.type === 'scroll-opacity';
+      let scrollDist = 0;
+      let resultH = contH;
+      let resultMT = 0;
+
+      // scroll parallax
+      if (isScroll) {
+        // scroll distance and height for image
+        if (speed < 0) {
+          scrollDist = speed * Math.max(contH, wndH);
+          if (wndH < contH) {
+            scrollDist -= speed * (contH - wndH);
+          }
+        } else {
+          scrollDist = speed * (contH + wndH);
+        }
+
+        // size for scroll parallax
+        if (speed > 1) {
+          resultH = Math.abs(scrollDist - wndH);
+        } else if (speed < 0) {
+          resultH = scrollDist / speed + Math.abs(scrollDist);
+        } else {
+          resultH += (wndH - contH) * (1 - speed);
+        }
+        scrollDist /= 2;
+      }
+
+      // store scroll distance
+      self.parallaxScrollDistance = scrollDist;
+
+      // vertical center
+      if (isScroll) {
+        resultMT = (wndH - resultH) / 2;
+      } else {
+        resultMT = (contH - resultH) / 2;
+      }
+
+      // apply result to item
+      self.css(self.image.$item, {
+        height: `${resultH}px`,
+        marginTop: `${resultMT}px`,
+        left: self.image.position === 'fixed' ? `${rect.left}px` : '0',
+        width: `${rect.width}px`
+      });
+
+      // call onCoverImage event
+      if (self.options.onCoverImage) {
+        self.options.onCoverImage.call(self);
+      }
+
+      // return some useful data. Used in the video cover function
+      return {
+        image: {
+          height: resultH,
+          marginTop: resultMT
+        },
+        container: rect
+      };
+    }
+    isVisible() {
+      return this.isElementInViewport || false;
+    }
+    onScroll(force) {
+      const self = this;
+
+      // stop calculations if item is not in viewport
+      if (!force && !self.isVisible()) {
+        return;
+      }
+      const {
+        height: wndH
+      } = getWindowSize();
+      const rect = self.$item.getBoundingClientRect();
+      const contT = rect.top;
+      const contH = rect.height;
+      const styles = {};
+
+      // calculate parallax helping variables
+      const beforeTop = Math.max(0, contT);
+      const beforeTopEnd = Math.max(0, contH + contT);
+      const afterTop = Math.max(0, -contT);
+      const beforeBottom = Math.max(0, contT + contH - wndH);
+      const beforeBottomEnd = Math.max(0, contH - (contT + contH - wndH));
+      const afterBottom = Math.max(0, -contT + wndH - contH);
+      const fromViewportCenter = 1 - 2 * ((wndH - contT) / (wndH + contH));
+
+      // calculate on how percent of section is visible
+      let visiblePercent = 1;
+      if (contH < wndH) {
+        visiblePercent = 1 - (afterTop || beforeBottom) / contH;
+      } else if (beforeTopEnd <= wndH) {
+        visiblePercent = beforeTopEnd / wndH;
+      } else if (beforeBottomEnd <= wndH) {
+        visiblePercent = beforeBottomEnd / wndH;
+      }
+
+      // opacity
+      if (self.options.type === 'opacity' || self.options.type === 'scale-opacity' || self.options.type === 'scroll-opacity') {
+        styles.transform = 'translate3d(0,0,0)';
+        styles.opacity = visiblePercent;
+      }
+
+      // scale
+      if (self.options.type === 'scale' || self.options.type === 'scale-opacity') {
+        let scale = 1;
+        if (self.options.speed < 0) {
+          scale -= self.options.speed * visiblePercent;
+        } else {
+          scale += self.options.speed * (1 - visiblePercent);
+        }
+        styles.transform = `scale(${scale}) translate3d(0,0,0)`;
+      }
+
+      // scroll
+      if (self.options.type === 'scroll' || self.options.type === 'scroll-opacity') {
+        let positionY = self.parallaxScrollDistance * fromViewportCenter;
+
+        // fix if parallax block in absolute position
+        if (self.image.position === 'absolute') {
+          positionY -= contT;
+        }
+        styles.transform = `translate3d(0,${positionY}px,0)`;
+      }
+      self.css(self.image.$item, styles);
+
+      // call onScroll event
+      if (self.options.onScroll) {
+        self.options.onScroll.call(self, {
+          section: rect,
+          beforeTop,
+          beforeTopEnd,
+          afterTop,
+          beforeBottom,
+          beforeBottomEnd,
+          afterBottom,
+          visiblePercent,
+          fromViewportCenter
+        });
+      }
+    }
+    onResize() {
+      this.coverImage();
+    }
+  }
+
+  // global definition
+  const jarallax = function (items, options, ...args) {
+    // check for dom element
+    // thanks: http://stackoverflow.com/questions/384286/javascript-isdom-how-do-you-check-if-a-javascript-object-is-a-dom-object
+    if (typeof HTMLElement === 'object' ? items instanceof HTMLElement : items && typeof items === 'object' && items !== null && items.nodeType === 1 && typeof items.nodeName === 'string') {
+      items = [items];
+    }
+    const len = items.length;
+    let k = 0;
+    let ret;
+    for (k; k < len; k += 1) {
+      if (typeof options === 'object' || typeof options === 'undefined') {
+        if (!items[k].jarallax) {
+          items[k].jarallax = new Jarallax(items[k], options);
+        }
+      } else if (items[k].jarallax) {
+        // eslint-disable-next-line prefer-spread
+        ret = items[k].jarallax[options].apply(items[k].jarallax, args);
+      }
+      if (typeof ret !== 'undefined') {
+        return ret;
+      }
+    }
+    return items;
+  };
+  jarallax.constructor = Jarallax;
+
+  const $ = global$1.jQuery;
+
+  // jQuery support
+  if (typeof $ !== 'undefined') {
+    const $Plugin = function (...args) {
+      Array.prototype.unshift.call(args, this);
+      const res = jarallax.apply(global$1, args);
+      return typeof res !== 'object' ? res : this;
+    };
+    $Plugin.constructor = jarallax.constructor;
+
+    // no conflict
+    const old$Plugin = $.fn.jarallax;
+    $.fn.jarallax = $Plugin;
+    $.fn.jarallax.noConflict = function () {
+      $.fn.jarallax = old$Plugin;
+      return this;
+    };
+  }
+
+  // data-jarallax initialization
+  ready(() => {
+    jarallax(document.querySelectorAll('[data-jarallax]'));
+  });
+
+  return jarallax;
+
+}));
+//# sourceMappingURL=jarallax.js.map

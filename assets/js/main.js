@@ -366,9 +366,13 @@
 
   function mt_parallax() {
   $('.parallax').jarallax({
-    speed: 0.3,
-    noAndroid: false,
-    noiPhone: false
+    speed: 0.4,
+    //noAndroid: false,
+    //noiPhone: false,
+    automaticResize: true,
+    imgSize:'auto, auto 60%',
+    imgPosition:'auto, 50% 50%',
+	imgRepeat:'repeat, no-repeat',
   });
   }
 
