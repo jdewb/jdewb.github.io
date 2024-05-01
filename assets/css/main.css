@@ -2640,6 +2640,7 @@ h3.title-section:after {
     -webkit-transition: all 0.3s!important;
     -moz-transition: all 0.3s!important;
     transition: all 0.3s!important;
+    color: #fff;
 }
 
 .contact-form textarea {
@@ -2655,6 +2656,7 @@ h3.title-section:after {
     -webkit-transition: all 0.3s!important;
     -moz-transition: all 0.3s!important;
     transition: all 0.3s!important;
+    color: #fff;
 }
 
 .contact-form input[type='submit'] {

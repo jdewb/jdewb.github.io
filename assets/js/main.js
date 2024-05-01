@@ -456,7 +456,7 @@
         
                         $.ajax({
                             type: "POST",
-                            url: "php/contact.php",
+                            url: "/php/contact.php",
                             data: dataString,
                             success: function(data) {
                                   if(data == 'OK') {
