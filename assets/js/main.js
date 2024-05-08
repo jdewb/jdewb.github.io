@@ -253,8 +253,8 @@
     }],
     defaultFilter: '*',
     animationType: 'quicksand',
-    gapHorizontal: 3,
-    gapVertical: 3,
+    gapHorizontal: 5, //3
+    gapVertical: 5, //3
     gridAdjustment: 'responsive',
     caption: 'zoom',
     displayType: 'sequentially',
@@ -366,9 +366,9 @@
 
   function mt_parallax() {
   $('.parallax').jarallax({
-    speed: 0.4,
-    //noAndroid: false,
-    //noiPhone: false,
+    speed: 0.2,
+    noAndroid: true,
+    noiPhone: true,
     automaticResize: true,
     imgSize:'auto, auto 60%',
     imgPosition:'auto, 50% 50%',
