@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Playlist Loop Player</title>
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #player {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .note {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      font-size: 12px;
+      border-radius: 8px;
+      line-height: 1.4;
+      max-width: 340px;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="player"></div>
+
+  <div class="note">
+    Browser autoplay rules may still require one click before playback begins.
+  </div>
+
+  <script>
+    const PLAYLIST_ID = "PLcu3Saz8YFvOpzk9TzLEjC2J7Oz3zWp_S";
+    let player;
+
+    // Load YouTube IFrame API
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player("player", {
+        width: "100%",
+        height: "100%",
+        playerVars: {
+          listType: "playlist",
+          list: PLAYLIST_ID,
+          autoplay: 1,
+          loop: 1,
+          controls: 1,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          enablejsapi: 1
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // Ensures playlist looping behavior
+      if (typeof player.setLoop === "function") {
+        player.setLoop(true);
+      }
+
+      // Try autoplay
+      event.target.playVideo();
+    }
+
+    function onPlayerStateChange(event) {
+      // When a video ends, jump immediately to the next item
+      if (event.data === YT.PlayerState.ENDED) {
+        try {
+          player.nextVideo();
+        } catch (e) {
+          // Fallback: reload playlist if needed
+          player.loadPlaylist({
+            list: PLAYLIST_ID,
+            listType: "playlist",
+            index: 0,
+            startSeconds: 0
+          });
+        }
+      }
+    }
+  </script>
+</body>
+</html>
